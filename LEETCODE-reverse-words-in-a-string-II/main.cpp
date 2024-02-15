@@ -13,31 +13,39 @@
 //  'b', 'l', 'u', 'e', ' ', 'h', 'e', 'l', 'l', 'o'    (blue hello)
 
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <cctype>
+
+using namespace std;
 
 void swap(char& ch1, char& ch2);
 //swap char values.
-void reverse(char ch[], int start, int end);
+void reverse(vector<char>& ch, int start, int end);
 //reverse array within given index start and end.
 
 int main()
 {
-    using namespace std;
-    
-    char ch[] = {'T', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 
-                'B', 'l', 'u', 'e'};
+    vector<char> ch;
 
-    int len = 0;
-    for (int i=0; ch[i] != '\0'; i++)
+    ifstream fin;
+    fin.open("./input.dat");
+
+    char temp;
+    fin.get(temp);
+    do
     {
-        len++;
+        ch.push_back(temp);
+        fin.get(temp);
     }
+    while (temp != '\n');
 
     int start = 0;
     int end = 0;
 
-    while (start < len)
+    while (start < ch.size())
     {
-        while ((!isspace(ch[end])) && end < len)
+        while ((!isspace(ch[end])) && end < ch.size())
         {
             end++;
         }
@@ -48,9 +56,13 @@ int main()
     }
 
     //Reverse the complete array after reversing the words.
-    reverse(ch, 0, len-1);
+    reverse(ch, 0, ch.size()-1);
 
-    cout << ch << endl;
+    for (auto i:ch)
+    {
+        cout << i;
+    }
+    cout << endl;
 
     return 0;
 }
@@ -62,7 +74,7 @@ void swap(char& ch1, char& ch2)
     ch2 = temp;
 }
 
-void reverse(char ch[], int start, int end)
+void reverse(vector<char>& ch, int start, int end)
 {
     while (start <= end)
     {
